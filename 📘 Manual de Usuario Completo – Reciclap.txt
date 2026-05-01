@@ -1,0 +1,283 @@
+📘 Manual de Usuario Completo – Reciclap
+Versión 1.0
+
+1. Introducción
+Reciclap es una plataforma web que conecta edificios (clientes) que necesitan gestionar sus residuos reciclables con recicladores independientes que prestan el servicio de recolección, clasificación y disposición final. Un Super Administrador supervisa todas las operaciones, garantizando la calidad del servicio.
+
+El sistema permite:
+
+Solicitar servicios de reciclaje describiendo el tipo de residuo.
+
+Asignar recicladores a las solicitudes.
+
+Gestionar el ciclo de vida del servicio (pendiente → asignado → aceptado → completado).
+
+Adjuntar evidencia fotográfica del trabajo realizado.
+
+Calificar a los recicladores.
+
+Monitorear todos los usuarios, servicios y calificaciones desde un panel de administración.
+
+2. Requisitos del Sistema
+Para ejecutar el proyecto localmente
+Backend: Python 3.10 o superior.
+
+Frontend: Node.js 18+ o Python (para servir archivos estáticos).
+
+Navegador web: Chrome, Firefox, Edge, Opera (últimas versiones).
+
+Espacio en disco: ~200 MB (incluyendo dependencias).
+
+Memoria RAM: Mínimo 512 MB disponibles.
+
+Acceso a la API
+La API REST está disponible en http://localhost:8000/api/v1 (cuando se ejecuta localmente). El frontend consume estos endpoints transparentemente.
+
+3. Instalación y Configuración
+3.1 Obtener el código fuente
+Descarga o clona el repositorio del proyecto en tu computadora. Obtendrás dos carpetas principales:
+
+text
+reciclapp/
+├── backend/
+└── frontend/
+3.2 Configurar el Backend
+Abre una terminal en la carpeta backend.
+
+Crea un entorno virtual:
+
+bash
+python -m venv venv
+Activa el entorno virtual:
+
+Windows: venv\Scripts\activate
+
+Linux/Mac: source venv/bin/activate
+
+Instala las dependencias:
+
+bash
+pip install -r requirements.txt
+Configura las variables de entorno en el archivo .env (ya existe, pero puedes modificarlo):
+
+text
+DATABASE_URL=sqlite:///./reciclap.db
+SECRET_KEY=clave-secreta-muy-larga-que-debes-cambiar
+UPLOAD_DIR=uploads/evidencias
+Crea la base de datos y el Super Admin predeterminado:
+
+bash
+python -m seed
+Esto generará el usuario administrador inicial.
+
+Inicia el servidor backend:
+
+bash
+uvicorn app.interfaces.main:app --reload
+También puedes usar el archivo run_backend.bat (Windows) haciendo doble clic.
+
+El backend estará disponible en http://localhost:8000. La documentación interactiva de la API se encuentra en http://localhost:8000/docs.
+
+3.3 Configurar el Frontend
+El frontend se compone de archivos HTML, CSS y JavaScript estáticos. No necesita compilación.
+
+Navega a la carpeta frontend.
+
+Sirve los archivos con un servidor local:
+
+Usando Python (recomendado si no tienes Node.js):
+
+bash
+python -m http.server 3000
+Usando Node.js (con npx):
+
+bash
+npx serve . -l 3000
+También puedes ejecutar el archivo run_frontend.bat (Windows).
+
+Abre tu navegador web y visita http://localhost:3000.
+
+4. Inicio Rápido
+Al abrir la aplicación por primera vez, verás la pantalla de Iniciar Sesión.
+
+Credenciales predeterminadas
+Rol	Email	Contraseña
+Super Admin	admin@reciclap.com	Admin123!
+Cliente	(debes registrarte)	
+Reciclador	(debes registrarte)	
+Recomendación: Después del primer inicio de sesión como Super Admin, cambia la contraseña por seguridad (aunque en esta versión no está implementado el cambio de contraseña, puedes crear otro admin mediante el seed).
+
+5. Roles y Funcionalidades
+5.1 Super Admin
+El Super Admin tiene acceso total al sistema. Su panel incluye tres pestañas principales:
+
+Usuarios: Visualiza todos los usuarios registrados con su ID, email, nombre, rol y estado (activo/inactivo).
+
+Servicios: Lista todos los servicios. Puede filtrar solo los pendientes y también asignar un reciclador a un servicio pendiente ingresando el ID del reciclador.
+
+Calificaciones: Muestra todas las calificaciones realizadas a los recicladores, con puntuación (estrellas) y comentarios.
+
+Flujo de trabajo del Admin:
+
+Revisa la pestaña Servicios.
+
+Haz clic en "Ver pendientes" para ver solo las solicitudes nuevas.
+
+Para cada servicio pendiente, ingresa el ID del reciclador que deseas asignar y haz clic en Asignar.
+
+El servicio pasa a estado "asignado" y aparecerá en el panel del reciclador correspondiente.
+
+5.2 Cliente (Edificio)
+El cliente representa un edificio o empresa que necesita servicios de reciclaje.
+
+Funciones:
+
+Solicitar servicio: Describe los residuos (ej. "Cartón y plástico, 2 bolsas grandes") y envía la solicitud. El servicio queda en estado "pendiente".
+
+Mis servicios: Visualiza todas sus solicitudes con su estado actual (pendiente, asignado, aceptado, rechazado, completado).
+
+Calificar: Cuando un servicio ha sido completado, aparece el botón Calificar. Puedes dar una puntuación de 1 a 5 estrellas y un comentario opcional.
+
+Flujo típico:
+
+El cliente solicita un servicio.
+
+El administrador asigna un reciclador.
+
+El reciclador acepta y luego completa el servicio subiendo fotos.
+
+El cliente ve el servicio como "completado" y puede calificarlo.
+
+5.3 Reciclador
+El reciclador es el proveedor del servicio.
+
+Funciones:
+
+Ver servicios asignados: Lista todos los servicios que le han sido asignados y que aún no han sido completados.
+
+Aceptar / Rechazar: Ante un servicio en estado "asignado", puede aceptarlo o rechazarlo.
+
+Completar servicio: Una vez realizado el trabajo, puede subir una o varias fotos como evidencia. El sistema registra la fecha y hora de finalización.
+
+Flujo típico:
+
+El reciclador inicia sesión y ve sus servicios asignados.
+
+Para un servicio en estado "asignado", hace clic en Aceptar. El estado cambia a "aceptado".
+
+Al terminar el trabajo, hace clic en Completar, selecciona las fotos (puede arrastrar y soltar) y confirma.
+
+El servicio pasa a "completado" y el cliente es notificado (al refrescar su lista).
+
+6. Flujo Completo de Reciclaje (Ejemplo paso a paso)
+Imaginemos que el edificio "Torres del Este" necesita reciclar papel.
+
+Cliente:
+
+Inicia sesión con su cuenta de cliente.
+
+Va a la pestaña Solicitar y describe: "Papel y cartón, 3 bolsas".
+
+Hace clic en Enviar Solicitud.
+
+El sistema crea el servicio #1 con estado "pendiente".
+
+Admin:
+
+Inicia sesión como Super Admin.
+
+Va a Servicios → Ver pendientes.
+
+Ve el servicio #1.
+
+Ingresa el ID del reciclador (por ejemplo, 2) y hace clic en Asignar.
+
+El servicio #1 ahora está "asignado" al reciclador #2.
+
+Reciclador:
+
+Inicia sesión con su cuenta de reciclador (id=2).
+
+Ve el servicio #1 en su lista.
+
+Hace clic en Aceptar. El estado cambia a "aceptado".
+
+Realiza la recolección físicamente.
+
+Vuelve a la aplicación y hace clic en Completar.
+
+Arrastra o selecciona 2 fotos del antes y después.
+
+Hace clic en Confirmar Entrega.
+
+El servicio #1 pasa a "completado".
+
+Cliente:
+
+Refresca su lista de servicios.
+
+Ve el servicio #1 como "completado".
+
+Hace clic en Calificar.
+
+Ingresa 5 estrellas y comenta "Excelente servicio".
+
+El sistema registra la calificación.
+
+Admin:
+
+Puede ver la calificación en la pestaña Calificaciones.
+
+7. Solución de Problemas Comunes
+7.1 El backend no inicia
+Error: ModuleNotFoundError: No module named '...'
+
+Solución: Asegúrate de haber instalado las dependencias con pip install -r requirements.txt y de que el entorno virtual esté activado.
+
+Error: Address already in use
+
+Solución: Hay otro proceso usando el puerto 8000. Detenlo o cambia el puerto en el comando uvicorn app.interfaces.main:app --reload --port 8001.
+
+7.2 El frontend no carga o muestra errores de CORS
+Solución: Verifica que en backend/app/interfaces/main.py tengas:
+
+python
+allow_origins=["*"]
+Y que el backend esté corriendo. Además, sirve el frontend con un servidor HTTP (no abras el archivo index.html directamente desde el disco duro).
+
+7.3 Credenciales incorrectas
+Verifica que el Super Admin se haya creado ejecutando python -m seed en la carpeta backend.
+
+Si olvidaste la contraseña de algún usuario, puedes crear uno nuevo desde la interfaz de registro o directamente en la base de datos con un script.
+
+7.4 No se pueden subir fotos (reciclador)
+Asegúrate de que las fotos sean formato JPEG o PNG. El sistema rechaza otros formatos.
+
+Verifica que el backend tenga permiso de escritura en la carpeta uploads/ (se crea automáticamente en el primer uso).
+
+8. Preguntas Frecuentes
+P: ¿Cómo registro un nuevo cliente o reciclador?
+R: En la pantalla de inicio de sesión, haz clic en "Registrarse". Completa el formulario seleccionando el rol correspondiente.
+
+P: ¿Puede un usuario tener más de un rol?
+R: No, cada cuenta tiene un único rol. Si necesitas múltiples roles, crea cuentas separadas.
+
+P: ¿Cómo sé qué ID tiene un reciclador para asignarle un servicio?
+R: Como Admin, ve a la pestaña Usuarios. Ahí verás todos los usuarios con sus IDs. Busca al reciclador por nombre o email.
+
+P: ¿El cliente recibe una notificación cuando se completa su servicio?
+R: En la versión actual, el cliente debe refrescar su lista de servicios para ver los cambios. Próximas versiones incluirán notificaciones en tiempo real.
+
+P: ¿Se pueden editar o eliminar servicios?
+R: No, por ahora los servicios siguen un flujo fijo y no se pueden modificar una vez creados (excepto el cambio de estado por parte del reciclador y el admin).
+
+9. Soporte
+Si encuentras algún problema o tienes sugerencias, puedes:
+
+Contactar al equipo de desarrollo.
+
+Revisar los logs del backend (terminal donde se ejecuta uvicorn) para ver errores.
+
+Visitar la documentación de la API en http://localhost:8000/docs para entender los endpoints disponibles.
+
+¡Gracias por usar Reciclap! Juntos contribuimos a un mundo más limpio y organizado. 🌱♻️

@@ -1,0 +1,16 @@
+Rol		Email			Contraseña	Notas
+Super Admin	admin@reciclap.com	Admin123!	Creado por el seed. Tiene acceso total al dashboard de administración.
+Cliente 	cliente1@ejemplo.com	123456		Registro de prueba desde el frontend o Postman.
+Reciclador	reciclador1@ejemplo.com	123456		Registro de prueba desde el frontend o Postman.
+
+
+▶️ Cómo usar el archivo
+Asegúrate de tener el backend corriendo (con run_backend.bat en la carpeta backend).
+
+Navega a la carpeta frontend.
+
+Haz doble clic en run_frontend.bat.
+
+El servidor se iniciará en http://localhost:3000.
+
+Abre tu navegador y visita esa dirección.
