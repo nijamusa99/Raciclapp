@@ -1,0 +1,382 @@
+{
+  "info": {
+    "name": "Reciclap",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Registrar cliente",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"cliente1@ejemplo.com\",\n    \"password\": \"123456\",\n    \"nombre\": \"Edificio Torres\",\n    \"telefono\": \"3001234567\",\n    \"rol\": \"cliente\",\n    \"nombre_edificio\": \"Torres del Este\",\n    \"direccion\": \"Calle 10 #5-20\",\n    \"ciudad\": \"Bogotá\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Registrar reciclador",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"reciclador1@ejemplo.com\",\n    \"password\": \"123456\",\n    \"nombre\": \"Carlos Reciclador\",\n    \"telefono\": \"3109876543\",\n    \"rol\": \"reciclador\",\n    \"tipo_vehiculo\": \"Camioneta\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login Super Admin",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@reciclap.com\",\n    \"password\": \"Admin123!\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login Cliente",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"cliente1@ejemplo.com\",\n    \"password\": \"123456\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login Reciclador",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"reciclador1@ejemplo.com\",\n    \"password\": \"123456\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cliente",
+      "item": [
+        {
+          "name": "Solicitar servicio",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_cliente}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"descripcion\": \"Recolección de cartón y plástico, 2 bolsas grandes\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/servicios",
+              "host": ["{{base_url}}"],
+              "path": ["servicios"]
+            }
+          }
+        },
+        {
+          "name": "Mis servicios",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_cliente}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/servicios",
+              "host": ["{{base_url}}"],
+              "path": ["servicios"]
+            }
+          }
+        },
+        {
+          "name": "Detalle de servicio",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_cliente}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/servicios/{{servicio_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["servicios", "{{servicio_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Calificar servicio",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_cliente}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"puntuacion\": 5,\n    \"comentario\": \"Muy puntual y organizado\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/servicios/{{servicio_id}}/calificar",
+              "host": ["{{base_url}}"],
+              "path": ["servicios", "{{servicio_id}}", "calificar"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reciclador",
+      "item": [
+        {
+          "name": "Ver servicios asignados",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_reciclador}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/reciclador/servicios",
+              "host": ["{{base_url}}"],
+              "path": ["reciclador", "servicios"]
+            }
+          }
+        },
+        {
+          "name": "Aceptar servicio",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_reciclador}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/reciclador/servicios/{{servicio_id}}/aceptar",
+              "host": ["{{base_url}}"],
+              "path": ["reciclador", "servicios", "{{servicio_id}}", "aceptar"]
+            }
+          }
+        },
+        {
+          "name": "Rechazar servicio",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_reciclador}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/reciclador/servicios/{{servicio_id}}/rechazar",
+              "host": ["{{base_url}}"],
+              "path": ["reciclador", "servicios", "{{servicio_id}}", "rechazar"]
+            }
+          }
+        },
+        {
+          "name": "Completar servicio (subir fotos)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_reciclador}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "fotos",
+                  "type": "file",
+                  "src": "ruta_del_archivo.jpg",
+                  "contentType": "image/jpeg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/reciclador/servicios/{{servicio_id}}/completar",
+              "host": ["{{base_url}}"],
+              "path": ["reciclador", "servicios", "{{servicio_id}}", "completar"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Listar usuarios",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/usuarios",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "usuarios"]
+            }
+          }
+        },
+        {
+          "name": "Listar servicios",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/servicios",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "servicios"]
+            }
+          }
+        },
+        {
+          "name": "Listar servicios pendientes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/servicios/pendientes",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "servicios", "pendientes"]
+            }
+          }
+        },
+        {
+          "name": "Asignar reciclador a servicio",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"reciclador_id\": 2\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/servicios/{{servicio_id}}/asignar",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "servicios", "{{servicio_id}}", "asignar"]
+            }
+          }
+        },
+        {
+          "name": "Ver calificaciones",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token_admin}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/calificaciones",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "calificaciones"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000/api/v1"
+    },
+    {
+      "key": "token_admin",
+      "value": ""
+    },
+    {
+      "key": "token_cliente",
+      "value": ""
+    },
+    {
+      "key": "token_reciclador",
+      "value": ""
+    },
+    {
+      "key": "servicio_id",
+      "value": "1"
+    }
+  ]
+}

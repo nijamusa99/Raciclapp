@@ -6,3 +6,32 @@ venv\Scripts\activate
 
 Instala las dependencias:
 pip install -r requirements.txt
+
+
+notas importante auth:
+Nota: Hay que manejar user_dict.password_hash pero el usuario retornado por el repo es un objeto ORM que tiene password_hash. Ajustaremos en el repositorio concreto para que el método get_by_email devuelva la entidad con el hash. Mejor modificar el servicio para que reciba el hash del usuario ORM. En el código final se usará el repositorio que devuelve el modelo ORM y adaptaremos.
+
+Optemos por implementar el auth_service con los repositorios concretos y usando el ORM directamente para evitar doble mapeo. Dado que estamos en una implementación limpia pero pragmática, podemos tener una capa de adaptación. Sin embargo, para mantener la pureza, el servicio de aplicación puede esperar entidades de dominio y el repositorio abstracto devuelve entidades de dominio. Pero en el repositorio concreto SQLAlchemy, mapearemos el modelo a la entidad. Para simplificar, en este tutorial haremos que el repositorio concreto devuelva directamente el modelo ORM (que es similar a la entidad) y lo usaremos en el servicio. Dado que la lógica de negocio central está en el estado del servicio (transiciones de estado), que no requiere mucha inteligencia, podemos hacer una concesión práctica.
+
+Voy a reescribir el auth_service de manera directa usando los repositorios que manejan los objetos ORM (que tienen atributos como password_hash). Así mantendremos la coherencia con el resto.
+
+
+
+acces_token
+
+"access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInJvbCI6InN1cGVyYWRtaW4iLCJleHAiOjE3Nzc2MTgxOTh9.BfbZRnuB5sXJDmnzM1xFlFNrf_s_P2wuiDbpbhxo7pU",
+    "token_type": "bearer"
+
+
+
+
+
+
+
+token_admin: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwicm9sIjoic3VwZXJhZG1pbiIsImV4cCI6MTc3NzYxOTg3NH0.x676tVOR4CgmbuDLilm-6DEIqhYTFzn0joTpSzN20R0
+
+token_cliente: 
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Iiwicm9sIjoiY2xpZW50ZSIsImV4cCI6MTc3NzYyMDAwN30.cWexH7GtdQJoaJSbXPM6ikrbmR3YrsRlwoze4Bkm0MM
+
+token_reciclador:
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Iiwicm9sIjoicmVjaWNsYWRvciIsImV4cCI6MTc3NzYyMDA2Nn0.Rczazv9lRKvKDJaTMP3TdfnmPI-3iLjhMO20JsEtq4M

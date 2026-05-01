@@ -1,0 +1,191 @@
+📘 Guía para probar la API de Reciclap en Postman
+Requisitos: servidor backend corriendo en http://localhost:8000 (usa run_backend.bat).
+Herramienta: Postman (escritorio o web).
+
+🔐 1. Autenticación y obtención de tokens
+En esta fase obtendrás los tokens JWT para los tres roles.
+
+1.1 Login como Super Admin
+POST http://localhost:8000/api/v1/auth/login
+
+Body → raw → JSON:
+
+json
+{
+    "email": "admin@reciclap.com",
+    "password": "Admin123!"
+}
+Respuesta esperada: 200 OK y un JSON con access_token.
+
+Guarda el token: copia el valor de access_token y pégalo en la variable token_admin de tu colección o en un bloc de notas.
+
+1.2 Registrar un Cliente (si no lo has hecho)
+POST http://localhost:8000/api/v1/auth/register
+
+Body → raw → JSON:
+
+json
+{
+    "email": "cliente1@ejemplo.com",
+    "password": "123456",
+    "nombre": "Edificio Torres",
+    "telefono": "3001234567",
+    "rol": "cliente",
+    "nombre_edificio": "Torres del Este",
+    "direccion": "Calle 10 #5-20",
+    "ciudad": "Bogotá"
+}
+Respuesta: 200 OK con access_token.
+
+Guarda el token como token_cliente.
+
+1.3 Registrar un Reciclador (si no lo has hecho)
+POST http://localhost:8000/api/v1/auth/register
+
+Body → raw → JSON:
+
+json
+{
+    "email": "reciclador1@ejemplo.com",
+    "password": "123456",
+    "nombre": "Carlos Reciclador",
+    "telefono": "3109876543",
+    "rol": "reciclador",
+    "tipo_vehiculo": "Camioneta"
+}
+Respuesta: 200 OK con access_token.
+
+Guarda el token como token_reciclador.
+
+Nota: Si ya registraste estos usuarios, simplemente haz login de cada uno para obtener un token fresco. Usa POST /auth/login con sus credenciales.
+
+📝 2. Cliente – Crear un servicio
+POST http://localhost:8000/api/v1/servicios
+
+Authorization: Bearer Token, pega el token_cliente.
+
+Body → raw → JSON:
+
+json
+{
+    "descripcion": "Recolección de cartón y plástico, 2 bolsas grandes"
+}
+Respuesta: 200 OK con el objeto del servicio creado. Anota el id (ejemplo: 1). Este será el servicio_id para los siguientes pasos.
+
+👑 3. Admin – Asignar reciclador al servicio
+PATCH http://localhost:8000/api/v1/admin/servicios/1/asignar
+(Reemplaza 1 por el servicio_id real)
+
+Authorization: Bearer Token, pega el token_admin.
+
+Body → raw → JSON:
+
+json
+{
+    "reciclador_id": 2
+}
+¿Cómo saber el reciclador_id?
+Si no lo sabes, haz un GET a http://localhost:8000/api/v1/admin/usuarios?rol=reciclador (con token_admin) y mira el id del reciclador que registraste. Normalmente el primer reciclador es id=2 si el Super Admin es id=1.
+
+Respuesta esperada: 200 OK y el servicio con estado "asignado".
+
+🚛 4. Reciclador – Aceptar servicio
+PATCH http://localhost:8000/api/v1/reciclador/servicios/1/aceptar
+(El mismo servicio_id)
+
+Authorization: Bearer Token, pega el token_reciclador.
+
+Body: vacío (none).
+
+Respuesta: 200 OK con estado "aceptado".
+
+⚠️ Posibles errores:
+
+"Acción no permitida": el servicio no está en estado "asignado", o el reciclador_id del servicio no coincide con tu ID de usuario. Verifica con el Admin el estado y el reciclador asignado.
+
+Si te equivocaste, puedes reasignar con el paso 3 usando otro reciclador_id válido.
+
+📸 5. Reciclador – Completar servicio con fotos
+POST http://localhost:8000/api/v1/reciclador/servicios/1/completar
+
+Authorization: Bearer Token, pega el token_reciclador.
+
+Body → form-data:
+
+Agregar una clave llamada fotos.
+
+Cambiar tipo de "Text" a File.
+
+Seleccionar una o varias imágenes JPEG o PNG desde tu ordenador.
+
+Puedes agregar más filas con la misma clave fotos para múltiples imágenes.
+
+Respuesta esperada: 200 OK con mensaje "Servicio completado exitosamente" y el servicio con estado "completado".
+
+⚠️ Notas:
+
+Si envías otras extensiones o archivos que no sean imágenes, recibirás un error.
+
+El directorio uploads/evidencias se crea automáticamente.
+
+⭐ 6. Cliente – Calificar al reciclador
+POST http://localhost:8000/api/v1/servicios/1/calificar
+
+Authorization: Bearer Token, pega el token_cliente.
+
+Body → raw → JSON:
+
+json
+{
+    "puntuacion": 5,
+    "comentario": "Muy puntual y eficiente"
+}
+Respuesta: 200 OK con la calificación creada.
+
+⚠️ El servicio debe estar completado y no haber sido calificado antes.
+
+📊 7. Admin – Ver calificaciones y estado general
+GET http://localhost:8000/api/v1/admin/calificaciones
+→ Lista todas las calificaciones.
+
+GET http://localhost:8000/api/v1/admin/servicios
+→ Lista todos los servicios con sus estados.
+
+GET http://localhost:8000/api/v1/admin/usuarios
+→ Lista todos los usuarios por rol.
+
+Todos con Authorization: token_admin.
+
+🧩 Variables en Postman (opcional)
+Para no estar pegando tokens manualmente, puedes definir variables de colección:
+
+Ve a la colección → Variables.
+
+Crea:
+
+base_url = http://localhost:8000/api/v1
+
+token_admin = (dejar vacío)
+
+token_cliente = (dejar vacío)
+
+token_reciclador = (dejar vacío)
+
+servicio_id = 1
+
+En cada request, usa {{token_admin}} en el campo Bearer Token.
+
+Después de cada login, actualiza las variables con los nuevos tokens.
+
+💡 Consejos finales
+Nunca ejecutes toda la colección con el Runner; los endpoints dependen de un orden estricto.
+
+Si un paso falla, revisa la respuesta; ahí vendrá un mensaje descriptivo.
+
+Si el error es 401, el token no se está enviando o es inválido.
+
+Si es 400, revisa los campos enviados (faltan o están mal escritos).
+
+Si es 403, no tienes el rol requerido (estás usando un token de cliente donde se necesita admin, etc.).
+
+Siguiendo esta guía, podrás completar el ciclo completo de Reciclap sin problemas.
