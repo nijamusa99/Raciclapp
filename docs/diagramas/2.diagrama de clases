@@ -1,0 +1,46 @@
+@startuml class_domain
+!define DIRECTION top to bottom
+skinparam backgroundColor #FEFEFE
+
+class User {
+    id: int
+    email: string
+    password_hash: string
+    name: string
+    role: enum(admin|client|recycler)
+    status: enum(active|inactive)
+}
+
+class Service {
+    id: int
+    client_id: int
+    recycler_id: int
+    description: string
+    status: enum(pending|assigned|accepted|completed|rejected|rated)
+    created_at: datetime
+    completed_at: datetime
+}
+
+class Evidence {
+    id: int
+    service_id: int
+    file_path: string
+    uploaded_by: int
+    uploaded_at: datetime
+}
+
+class Rating {
+    id: int
+    service_id: int
+    recycler_id: int
+    score: int (1-5)
+    comment: string
+    created_at: datetime
+}
+
+User "1" --> "*" Service : creates
+Service "1" --> "*" Evidence : has
+Service "1" --> "0..1" Rating : has
+User "1" --> "*" Rating : gives
+
+@enduml

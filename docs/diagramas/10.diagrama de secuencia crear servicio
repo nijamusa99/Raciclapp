@@ -1,0 +1,29 @@
+
+@startuml seq_crear_servicio
+!define DIRECTION top to bottom
+skinparam backgroundColor #FEFEFE
+
+participant Cliente
+participant Frontend
+participant "FastAPI\nBackend"
+participant "Auth Module"
+participant "Use Case"
+participant "SQLite DB"
+
+Cliente -> Frontend: Click "Solicitar Servicio"
+Frontend -> Cliente: Muestra formulario
+Cliente -> Frontend: Ingresa descripción
+Frontend -> "FastAPI\nBackend": POST /services\n{token, description}
+
+"FastAPI\nBackend" -> "Auth Module": verify_token(token)
+"Auth Module" --> "FastAPI\nBackend": user validated
+
+"FastAPI\nBackend" -> "Use Case": create_service(client_id, description)
+"Use Case" -> "SQLite DB": INSERT INTO services
+"SQLite DB" --> "Use Case": service_id = 1
+"Use Case" --> "FastAPI\nBackend": ServiceCreated{id, status='pending'}
+
+"FastAPI\nBackend" --> Frontend: 200 OK {service}
+Frontend --> Cliente: "Servicio creado exitosamente"
+
+@enduml

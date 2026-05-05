@@ -1,0 +1,35 @@
+
+@startuml deployment_reciclap
+!define DIRECTION top to bottom
+skinparam backgroundColor #FEFEFE
+
+node "User Computer" {
+    artifact "Web Browser" as Browser
+}
+
+node "Development Server" {
+    artifact "Frontend (Node.js)" as Frontend
+    artifact "Backend (FastAPI)" as Backend
+}
+
+node "Database Server" {
+    database "SQLite DB" as DB
+}
+
+node "File Server" {
+    folder "uploads/evidencias" as Storage
+}
+
+node "External Services" {
+    cloud "Groq API" as GroqCloud
+    cloud "OpenAI API" as OpenAiCloud
+}
+
+Browser --> Frontend : HTTP
+Frontend --> Backend : REST API
+Backend --> DB : SQL
+Backend --> Storage : Save/Read
+Backend --> GroqCloud : API calls
+Backend --> OpenAiCloud : API calls
+
+@enduml

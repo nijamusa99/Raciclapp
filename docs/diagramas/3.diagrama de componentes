@@ -1,0 +1,52 @@
+@startuml component_hexagonal
+!define DIRECTION top to bottom
+skinparam backgroundColor #FEFEFE
+
+package "Presentation Layer" {
+    component "HTTP Server (FastAPI)" as HTTP
+}
+
+package "Domain Layer" {
+    component "Entities" as Entities
+    component "Ports" as Ports
+    component "Use Cases" as UseCases
+}
+
+package "Infrastructure Layer" {
+    package "Adapters" {
+        component "JwtTokenDecoder" as JwtAdapter
+        component "HttpConfigReader" as ConfigAdapter
+        component "GroqOpinionAdapter" as GroqAdapter
+        component "OpenAiOpinionAdapter" as OpenAiAdapter
+        component "SbertEmbeddingAdapter" as EmbeddingAdapter
+        component "OracleAdapter" as OracleAdapter
+        component "SqlServerAdapter" as SqlServerAdapter
+    }
+    package "Repositories" {
+        component "PickleCandidateRepository" as PickleRepo
+        component "SqliteServiceRepository" as SqliteRepo
+        component "FileEvidenceRepository" as FileRepo
+    }
+    package "External Services" {
+        component "Groq API" as GroqService
+        component "OpenAI API" as OpenAiService
+        component "SQLite DB" as DB
+        component "File Storage" as Storage
+    }
+}
+
+HTTP --> UseCases : calls
+UseCases --> Entities : uses
+UseCases --> Ports : implements
+Ports --> Adapters : interface
+JwtAdapter --> DB : reads tokens
+ConfigAdapter --> DB : reads config
+GroqAdapter --> GroqService : API calls
+OpenAiAdapter --> OpenAiService : API calls
+EmbeddingAdapter --> OpenAiService : API calls
+PickleRepo --> DB : reads pickle files
+SqliteRepo --> DB : SQL queries
+FileRepo --> Storage : saves/reads files
+
+@enduml
+

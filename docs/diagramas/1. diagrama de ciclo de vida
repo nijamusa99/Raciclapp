@@ -1,0 +1,20 @@
+
+@startuml statemachine_service
+!define DIRECTION top to bottom
+skinparam backgroundColor #FEFEFE
+
+[*] --> Pending : Cliente crea servicio
+
+Pending --> Assigned : Admin asigna reciclador
+
+Assigned --> Accepted : Reciclador acepta
+Assigned --> Rejected : Reciclador rechaza
+
+Accepted --> Completed : Reciclador completa\ny sube fotos
+
+Completed --> Rated : Cliente califica
+
+Rated --> [*]
+Rejected --> [*]
+
+@enduml

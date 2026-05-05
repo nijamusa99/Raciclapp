@@ -1,0 +1,33 @@
+
+@startuml seq_calificar
+!define DIRECTION top to bottom
+skinparam backgroundColor #FEFEFE
+
+participant Cliente
+participant Frontend
+participant "FastAPI\nBackend"
+participant "Auth Module"
+participant "Use Case"
+participant "SQLite DB"
+
+Cliente -> Frontend: Ve servicio completado
+Frontend -> Cliente: Muestra botón "Calificar"
+
+Cliente -> Frontend: Ingresa rating=5, comment="Excelente"
+Frontend -> "FastAPI\nBackend": POST /services/1/rate\n{token, rating, comment}
+
+"FastAPI\nBackend" -> "Auth Module": verify_token(token)
+"Auth Module" --> "FastAPI\nBackend": user validated
+
+"FastAPI\nBackend" -> "Use Case": rate_service(service_id, rating, comment, client_id)
+
+"Use Case" -> "SQLite DB": INSERT INTO ratings\n(service_id, recycler_id, rating, comment)
+
+"Use Case" -> "SQLite DB": UPDATE services\nSET status='rated'
+
+"Use Case" --> "FastAPI\nBackend": RatingCreated{rating, comment}
+"FastAPI\nBackend" --> Frontend: 200 OK
+Frontend --> Cliente: "Calificación registrada"
+
+@enduml
+

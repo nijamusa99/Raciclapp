@@ -1,0 +1,418 @@
+{
+	"id": "f954fe8e-ee5e-48a8-8bb4-4ba638e1eb9d",
+	"name": "Reciclap",
+	"timestamp": "2026-05-05T02:43:37.372Z",
+	"collection_id": "45588653-41e9f8c8-005f-4a1f-ad7e-bcf33aa41180",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 0,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2026-05-05T02:43:34.513Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "c40799e7-674d-4ffc-8e4c-fbbf9198e8b2",
+			"name": "Registrar cliente",
+			"url": "http://localhost:8000/api/v1/auth/register",
+			"time": 45,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				45
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "1274c43b-40dc-47dc-8f0e-e57a645bacc4",
+			"name": "Registrar reciclador",
+			"url": "http://localhost:8000/api/v1/auth/register",
+			"time": 5,
+			"responseCode": {
+				"code": 400,
+				"name": "Bad Request"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				5
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "d3cd049f-c5a6-4cc3-b2d0-328d86618a31",
+			"name": "Login Super Admin",
+			"url": "http://localhost:8000/api/v1/auth/login",
+			"time": 304,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				304
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "ae149da5-8d02-4da2-80ee-0ad99b8e901a",
+			"name": "Login Cliente",
+			"url": "http://localhost:8000/api/v1/auth/login",
+			"time": 219,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				219
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "f044ddf9-9525-4373-a9a8-484f8cbcf5ec",
+			"name": "Login Reciclador",
+			"url": "http://localhost:8000/api/v1/auth/login",
+			"time": 216,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				216
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "60f1cf29-5273-4051-a02d-1eaba348d70c",
+			"name": "Solicitar servicio",
+			"url": "http://localhost:8000/api/v1/servicios",
+			"time": 5,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				5
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "71ca24c0-9ab3-4969-8e12-d4bb8cc55907",
+			"name": "Mis servicios",
+			"url": "http://localhost:8000/api/v1/servicios",
+			"time": 3,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				3
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "5585fa13-273b-4765-a020-806ee4ee9ed1",
+			"name": "Detalle de servicio",
+			"url": "http://localhost:8000/api/v1/servicios/1",
+			"time": 9,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				9
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "092331a4-25b8-42b9-b4b0-cf5889baeb50",
+			"name": "Calificar servicio",
+			"url": "http://localhost:8000/api/v1/servicios/1/calificar",
+			"time": 4,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				4
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "c8582f7a-523b-4c2c-9c8c-111207ed1118",
+			"name": "Ver servicios asignados",
+			"url": "http://localhost:8000/api/v1/reciclador/servicios",
+			"time": 22,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				22
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "d5f0e244-2180-429d-a9e6-a636979219c0",
+			"name": "Aceptar servicio",
+			"url": "http://localhost:8000/api/v1/reciclador/servicios/1/aceptar",
+			"time": 8,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				8
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "0c7ffc60-35dc-4ebc-a151-93f4360702d0",
+			"name": "Rechazar servicio",
+			"url": "http://localhost:8000/api/v1/reciclador/servicios/1/rechazar",
+			"time": 3,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				3
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "a84734fc-8743-4057-8686-65673fdca761",
+			"name": "Completar servicio (subir fotos)",
+			"url": "http://localhost:8000/api/v1/reciclador/servicios/1/completar",
+			"time": 5,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				5
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "44a5b395-a89c-4d64-91cf-128e0c950bce",
+			"name": "Listar usuarios",
+			"url": "http://localhost:8000/api/v1/admin/usuarios",
+			"time": 23,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				23
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "84d718f1-09ae-42e9-87a5-3e4fcba0dd8c",
+			"name": "Listar servicios",
+			"url": "http://localhost:8000/api/v1/admin/servicios",
+			"time": 3,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				3
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "6cc073e2-c067-452f-baf1-52e6b4719b6b",
+			"name": "Listar servicios pendientes",
+			"url": "http://localhost:8000/api/v1/admin/servicios/pendientes",
+			"time": 3,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				3
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "00b39f79-bd38-4aaf-ac97-f9c130d74eb8",
+			"name": "Asignar reciclador a servicio",
+			"url": "http://localhost:8000/api/v1/admin/servicios/1/asignar",
+			"time": 7,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				7
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "486323d9-cb9b-462f-a0f5-8f9ec2864200",
+			"name": "Ver calificaciones",
+			"url": "http://localhost:8000/api/v1/admin/calificaciones",
+			"time": 3,
+			"responseCode": {
+				"code": 401,
+				"name": "Unauthorized"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				3
+			],
+			"allTests": [
+				{}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 887,
+	"collection": {
+		"requests": [
+			{
+				"id": "c40799e7-674d-4ffc-8e4c-fbbf9198e8b2",
+				"method": "POST"
+			},
+			{
+				"id": "1274c43b-40dc-47dc-8f0e-e57a645bacc4",
+				"method": "POST"
+			},
+			{
+				"id": "d3cd049f-c5a6-4cc3-b2d0-328d86618a31",
+				"method": "POST"
+			},
+			{
+				"id": "ae149da5-8d02-4da2-80ee-0ad99b8e901a",
+				"method": "POST"
+			},
+			{
+				"id": "f044ddf9-9525-4373-a9a8-484f8cbcf5ec",
+				"method": "POST"
+			},
+			{
+				"id": "60f1cf29-5273-4051-a02d-1eaba348d70c",
+				"method": "POST"
+			},
+			{
+				"id": "71ca24c0-9ab3-4969-8e12-d4bb8cc55907",
+				"method": "GET"
+			},
+			{
+				"id": "5585fa13-273b-4765-a020-806ee4ee9ed1",
+				"method": "GET"
+			},
+			{
+				"id": "092331a4-25b8-42b9-b4b0-cf5889baeb50",
+				"method": "POST"
+			},
+			{
+				"id": "c8582f7a-523b-4c2c-9c8c-111207ed1118",
+				"method": "GET"
+			},
+			{
+				"id": "d5f0e244-2180-429d-a9e6-a636979219c0",
+				"method": "PATCH"
+			},
+			{
+				"id": "0c7ffc60-35dc-4ebc-a151-93f4360702d0",
+				"method": "PATCH"
+			},
+			{
+				"id": "a84734fc-8743-4057-8686-65673fdca761",
+				"method": "POST"
+			},
+			{
+				"id": "44a5b395-a89c-4d64-91cf-128e0c950bce",
+				"method": "GET"
+			},
+			{
+				"id": "84d718f1-09ae-42e9-87a5-3e4fcba0dd8c",
+				"method": "GET"
+			},
+			{
+				"id": "6cc073e2-c067-452f-baf1-52e6b4719b6b",
+				"method": "GET"
+			},
+			{
+				"id": "00b39f79-bd38-4aaf-ac97-f9c130d74eb8",
+				"method": "PATCH"
+			},
+			{
+				"id": "486323d9-cb9b-462f-a0f5-8f9ec2864200",
+				"method": "GET"
+			}
+		]
+	}
+}

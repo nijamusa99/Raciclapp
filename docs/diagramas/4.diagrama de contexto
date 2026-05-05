@@ -1,0 +1,21 @@
+
+@startuml context_reciclap
+!define DIRECTION top to bottom
+skinparam backgroundColor #FEFEFE
+
+actor Cliente
+actor Admin
+actor Reciclador
+package "Reciclap System" {
+    component System
+}
+database "SQLite DB"
+folder "File Storage"
+
+Cliente --> System : Solicita servicio
+Admin --> System : Asigna reciclador
+Reciclador --> System : Completa servicio
+System --> "SQLite DB" : Almacena datos
+System --> "File Storage" : Guarda fotos
+
+@enduml
