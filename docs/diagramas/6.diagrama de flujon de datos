@@ -1,0 +1,49 @@
+
+@startuml dfd_reciclap
+!define DIRECTION top to bottom
+skinparam backgroundColor #FEFEFE
+
+rectangle "Usuarios" {
+    actor Cliente
+    actor Admin
+    actor Reciclador
+}
+
+rectangle "Frontend" {
+    component "Web Browser\n(HTML/CSS/JS)"
+}
+
+rectangle "Backend" {
+    component "FastAPI\nHTTP Server"
+    component "Auth Module\n(JWT)"
+    component "Business Logic\n(Use Cases)"
+}
+
+rectangle "Data Layer" {
+    database "SQLite DB"
+    folder "uploads/\nevidencias"
+}
+
+rectangle "External" {
+    component "Groq API"
+    component "OpenAI API"
+}
+
+Cliente --> "Web Browser" : interactúa
+Admin --> "Web Browser" : interactúa
+Reciclador --> "Web Browser" : interactúa
+
+"Web Browser" --> "FastAPI\nHTTP Server" : GET/POST\n/api/v1/*
+
+"FastAPI\nHTTP Server" --> "Auth Module\n(JWT)" : valida token
+
+"FastAPI\nHTTP Server" --> "Business Logic\n(Use Cases)" : ejecuta
+
+"Business Logic\n(Use Cases)" --> "SQLite DB" : CRUD operaciones
+
+"Business Logic\n(Use Cases)" --> "uploads/\nevidencias" : guarda fotos
+
+"Business Logic\n(Use Cases)" --> "Groq API" : procesa texto
+"Business Logic\n(Use Cases)" --> "OpenAI API" : procesa texto
+
+@enduml

@@ -1,0 +1,38 @@
+@startuml usecase_reciclap
+!define DIRECTION top to bottom
+skinparam backgroundColor #FEFEFE
+
+left to right direction
+
+actor Cliente
+actor Admin
+actor Reciclador
+
+rectangle "Reciclap System" {
+    usecase "Solicitar Servicio" as UC1
+    usecase "Ver Servicios" as UC2
+    usecase "Calificar Reciclador" as UC3
+    usecase "Ver Pendientes" as UC4
+    usecase "Asignar Reciclador" as UC5
+    usecase "Ver Calificaciones" as UC6
+    usecase "Ver Servicios Asignados" as UC7
+    usecase "Aceptar/Rechazar" as UC8
+    usecase "Completar Servicio" as UC9
+}
+
+Cliente --> UC1
+Cliente --> UC2
+Cliente --> UC3
+
+Admin --> UC4
+Admin --> UC5
+Admin --> UC6
+
+Reciclador --> UC7
+Reciclador --> UC8
+Reciclador --> UC9
+
+UC1 .> UC2 : include
+UC8 .> UC9 : include
+
+@enduml

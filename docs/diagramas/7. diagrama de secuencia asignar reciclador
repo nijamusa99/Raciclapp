@@ -1,0 +1,40 @@
+
+@startuml seq_asignar_reciclador
+!define DIRECTION top to bottom
+skinparam backgroundColor #FEFEFE
+
+participant Admin
+participant Frontend
+participant "FastAPI\nBackend"
+participant "Auth Module"
+participant "Use Case"
+participant "SQLite DB"
+
+Admin -> Frontend: Click "Ver Pendientes"
+Frontend -> "FastAPI\nBackend": GET /services?status=pending\n{token}
+
+"FastAPI\nBackend" -> "Auth Module": verify_admin(token)
+"Auth Module" --> "FastAPI\nBackend": admin validated
+
+"FastAPI\nBackend" -> "Use Case": list_pending_services()
+"Use Case" -> "SQLite DB": SELECT * FROM services\nWHERE status='pending'
+"SQLite DB" --> "Use Case": [service1, service2, ...]
+"Use Case" --> "FastAPI\nBackend": [services]
+
+"FastAPI\nBackend" --> Frontend: 200 OK [services]
+Frontend --> Admin: Muestra lista
+
+Admin -> Frontend: Ingresa recycler_id=2
+Frontend -> "FastAPI\nBackend": POST /services/1/assign\n{recycler_id, token}
+
+"FastAPI\nBackend" -> "Auth Module": verify_admin(token)
+"FastAPI\nBackend" -> "Use Case": assign_recycler(service_id, recycler_id)
+"Use Case" -> "SQLite DB": UPDATE services\nSET status='assigned', recycler_id=2
+"SQLite DB" --> "Use Case": success
+
+"Use Case" --> "FastAPI\nBackend": ServiceAssigned{status='assigned'}
+"FastAPI\nBackend" --> Frontend: 200 OK
+Frontend --> Admin: "Asignado exitosamente"
+
+@enduml
+

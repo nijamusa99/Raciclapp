@@ -11,6 +11,6 @@ Navega a la carpeta frontend.
 
 Haz doble clic en run_frontend.bat.
 
-El servidor se iniciará en http://localhost:3000.
+El servidor se iniciará en http://localhost:3000. python -m http.server 3000
 
 Abre tu navegador y visita esa dirección.
