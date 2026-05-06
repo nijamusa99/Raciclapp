@@ -9,3 +9,8 @@ pydantic-settings
 python-dotenv
 aiofiles
 email-validator
+pytest
+pytest-asyncio
+httpx
+pytest-html
+pytest-cov
